@@ -13,7 +13,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-// import Detail from 'components/Detail/Loadable';
+import Detail from 'components/Detail/Loadable';
 import Marker from 'components/Marker/Loadable';
 // import Search from 'components/Search/Loadable';
 import { fetchRestaurants } from './actions';
@@ -77,6 +77,7 @@ export function RestaurantsPage(props) {
             </i>
           </p>
           <p className="or-search">OR</p>
+          <Detail data={restaurant} />
         </div>
       </div>
     </React.Fragment>
