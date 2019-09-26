@@ -1,0 +1,50 @@
+
+.auto-suggest {
+ position: relative;
+}
+
+.auto-suggest input[type=text] {
+ width: 100%;
+ padding: 7px 20px;
+ display: inline-block;
+ border: 1px solid #ccc;
+ box-sizing: border-box;
+ outline: none;
+}
+
+.auto-suggest .suggestion-list {
+ width: 100%;
+ list-style-type: none;
+ padding-left: 0px;
+ border: 1px solid #ccc;
+ padding-top: 0px;
+ border-top: none;
+ margin-top: 0px;
+ position: absolute;
+ z-index: 1;
+ height: 200px;
+ overflow-y: auto;
+ background-color: #ffffff;
+}
+.auto-suggest .suggestion-list li {
+ padding-left: 18px;
+ background-color: #f5f5f5;
+}
+.auto-suggest .suggestion-list li button{ 
+ width: 100%;
+ text-align: left;
+ border: none;
+ background-color: transparent;
+ cursor: pointer;
+ outline: none;
+ padding-top: 5px;
+ padding-bottom: 5px;
+}
+
+.auto-suggest .suggestion-list li:hover {
+ background-color: #e4dbdb;
+}
+.auto-suggest .suggestion-list li:last-child {
+ padding-bottom: 5px;
+ border-bottom: none;
+}
