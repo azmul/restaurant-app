@@ -4,10 +4,18 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { SET_MAP_COORDINATE, FETCH_ADDRESS } from './constants';
 
-export function defaultAction() {
+export function setMapCoordinate(data) {
   return {
-    type: DEFAULT_ACTION,
+    type: SET_MAP_COORDINATE,
+    data,
+  };
+}
+
+export function fetchAddress(data) {
+  return {
+    type: FETCH_ADDRESS,
+    data,
   };
 }

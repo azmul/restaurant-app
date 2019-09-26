@@ -22,6 +22,10 @@ import 'file-loader?name=.htaccess!./.htaccess';
 
 import configureStore from './configureStore';
 
+// Import Config
+import devConfig from '../config/development';
+import prodConfig from '../config/production';
+
 // Import i18n messages
 import { translationMessages } from './i18n';
 
@@ -63,6 +67,11 @@ if (!window.Intl) {
   render(translationMessages);
 }
 
+if (process.env.NODE_ENV === 'development') {
+  process.env.CONFIG = devConfig;
+}
+
 if (process.env.NODE_ENV === 'production') {
+  process.env.CONFIG = prodConfig;
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }

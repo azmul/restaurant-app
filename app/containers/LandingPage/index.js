@@ -4,38 +4,57 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import RestaurantsPage from 'containers/RestaurantsPage/Loadable';
+import { setMapCoordinate, fetchAddress } from './actions';
 import makeSelectLandingPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
 
-export function LandingPage() {
+export function LandingPage(props) {
   useInjectReducer({ key: 'landingPage', reducer });
   useInjectSaga({ key: 'landingPage', saga });
+  const { google } = window;
+  const { getMapCoordinate, getAddress } = props;
+  const [mapInfo, setMap] = useState(null);
+  useEffect(() => {
+    window.navigator.geolocation.getCurrentPosition(
+      async position => {
+        const positionInfo = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        const map = new google.maps.Map(document.getElementById('map_canvas'), {
+          zoom: 14,
+          center: positionInfo,
+          mapTypeControl: false,
+        });
+        setMap(map);
+        getMapCoordinate(positionInfo);
+        getAddress(positionInfo);
+      },
+      () => {},
+    );
+  }, []);
 
   return (
-    <div>
-      <Helmet>
-        <title>LandingPage</title>
-        <meta name="description" content="Description of LandingPage" />
-      </Helmet>
-      <FormattedMessage {...messages.header} />
-    </div>
+    <React.Fragment>
+      <div id="map_canvas" className="map-canvas" />
+      <RestaurantsPage map={mapInfo} />
+    </React.Fragment>
   );
 }
 
 LandingPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  getMapCoordinate: PropTypes.func,
+  getAddress: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -44,6 +63,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    getMapCoordinate: data => dispatch(setMapCoordinate(data)),
+    getAddress: data => dispatch(fetchAddress(data)),
     dispatch,
   };
 }
@@ -57,3 +78,4 @@ export default compose(
   withConnect,
   memo,
 )(LandingPage);
+
