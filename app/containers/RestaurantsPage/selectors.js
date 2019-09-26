@@ -10,5 +10,17 @@ const makeSelectRestaurantsPage = () =>
     substate => substate,
   );
 
+const makeRestaurants = () =>
+  createSelector(
+    selectRestaurantsPageDomain,
+    subState => subState.restaurants,
+  );
+
+const makeRestaurant = () =>
+  createSelector(
+    selectRestaurantsPageDomain,
+    subState => subState.restaurant,
+  );
+
 export default makeSelectRestaurantsPage;
-export { selectRestaurantsPageDomain };
+export { selectRestaurantsPageDomain, makeRestaurants, makeRestaurant };

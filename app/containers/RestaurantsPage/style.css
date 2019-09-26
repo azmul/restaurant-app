@@ -1,0 +1,58 @@
+.sidenav {
+ height: 100%;
+ width: 300px;
+ position: fixed;
+ z-index: 1;
+ top: 0;
+ left: 0;
+ background-color: #ffffff;
+ transition: 0.5s;
+ overflow: hidden;
+ padding: 10px;
+}
+
+.sidenav .closebtn {
+ position: absolute;
+ top: 0;
+ right: 0px;
+ font-size: 19px;
+ margin-left: 23px;
+ border: none;
+ cursor: pointer;
+}
+.sidenav p{
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.sidenav i{
+  color: #545454;
+  font-size: 13px;
+}
+.sidenav .finding-restaurant {
+  margin-top: 10px;
+}
+.sidenav .current-address{
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.openbtn {
+ position: absolute;
+ top: 10px;
+ left: 8px;
+ font-size: 23px;
+ border: none;
+ cursor: pointer;
+ background-color: #ffffff;
+}
+.or-search {
+  text-align: center;
+}
+.width-300 {
+ left: 300px;
+}
+
+.width-0 {
+ left: -315px;
+}
+

@@ -4,10 +4,17 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { FETCH_RESTAURANTS, FETCH_RESTAURANT } from './constants';
 
-export function defaultAction() {
+export function fetchRestaurants() {
   return {
-    type: DEFAULT_ACTION,
+    type: FETCH_RESTAURANTS,
+  };
+}
+
+export function fetchRestaurant(data) {
+  return {
+    type: FETCH_RESTAURANT,
+    data,
   };
 }
