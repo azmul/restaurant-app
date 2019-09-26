@@ -17,7 +17,7 @@ import Detail from 'components/Detail/Loadable';
 import Marker from 'components/Marker/Loadable';
 import Search from 'components/Search/Loadable';
 import { fetchRestaurants } from './actions';
-import { makeRestaurants, makeRestaurant } from './selectors';
+import { makeRestaurants, makeRestaurant, makeRouteInfo } from './selectors';
 import { makePositionInfo, makeUserAddress } from '../LandingPage/selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -27,7 +27,18 @@ import './style.css';
 export function RestaurantsPage(props) {
   useInjectReducer({ key: 'restaurantsPage', reducer });
   useInjectSaga({ key: 'restaurantsPage', saga });
-  const { restaurants, positionInfo, map, restaurant, userAddress } = props;
+
+  const { 
+    restaurants, 
+    positionInfo,
+    map, 
+    restaurant, 
+    userAddress, 
+    directionDisplay,
+    directionService,
+    routeInfo,
+  } = props;
+
   const [isWidth, setWidth] = useState(true);
 
   const closeNav = () => {
@@ -44,7 +55,14 @@ export function RestaurantsPage(props) {
   const renderRestaurant = () => {
     if (restaurants.length > 0) {
       return restaurants.map(res => (
-        <Marker key={Math.random()} restaurant={res} map={map} />
+        <Marker 
+          key={Math.random()} 
+          restaurant={res} 
+          map={map}
+          directionDisplay={directionDisplay}
+          directionService={directionService}
+          positionInfo={positionInfo}
+        />
       ));
     }
     return null;
@@ -53,22 +71,22 @@ export function RestaurantsPage(props) {
   return (
     <React.Fragment>
       <Helmet>
-        <title>ML | Map</title>
+        <title>ML | Restaurant</title>
         <meta name="description" content="Description of RestaurantsPage" />
       </Helmet>
       <div>{renderRestaurant()}</div>
-      <div className="map-container">
-        <button type="button" className="openbtn" onClick={() => openNav()}>
+      <section className="map-container">
+        <button type="button" className="open-btn" onClick={() => openNav()}>
           &gt;
         </button>
-        <div className={`sidenav ${isWidth ? 'width - 300' : 'width-0'}`}>
-          <button type="button" className="closebtn" onClick={() => closeNav()}>
+        <div className={`side-nav ${isWidth ? 'width - 300' : 'width-0'}`}>
+          <button type="button" className="close-btn" onClick={() => closeNav()}>
             &times;
           </button>
           <h4 className="current-address">Your Current Address</h4>
           <i>{userAddress}</i>
           <p className="finding-restaurant">
-            Finding Resturant Number is{' '}
+            Finding Restaurant Number is{' '}
             <b>{restaurants.length > 0 ? restaurants.length : 0} </b> in 1 KM
             <i>
               {restaurants.length > 0
@@ -77,10 +95,18 @@ export function RestaurantsPage(props) {
             </i>
           </p>
           <p className="or-search">OR</p>
-          <Search data={restaurants} />
-          <Detail data={restaurant} />
+          <Search 
+            data={restaurants}
+            directionDisplay={directionDisplay}
+            directionService={directionService}
+            positionInfo={positionInfo}
+          />
+          <Detail 
+            data={restaurant}
+            routeInfo={routeInfo}
+          />
         </div>
-      </div>
+      </section>
     </React.Fragment>
   );
 }
@@ -92,6 +118,9 @@ RestaurantsPage.propTypes = {
   positionInfo: PropTypes.object,
   map: PropTypes.object,
   userAddress: PropTypes.string,
+  directionDisplay: PropTypes.object,
+  directionService: PropTypes.object,
+  routeInfo: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -99,6 +128,7 @@ const mapStateToProps = createStructuredSelector({
   restaurant: makeRestaurant(),
   positionInfo: makePositionInfo(),
   userAddress: makeUserAddress(),
+  routeInfo: makeRouteInfo(),
 });
 
 function mapDispatchToProps(dispatch) {

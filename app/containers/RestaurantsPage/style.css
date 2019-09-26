@@ -1,4 +1,4 @@
-.sidenav {
+.side-nav {
  height: 100%;
  width: 300px;
  position: fixed;
@@ -11,7 +11,7 @@
  padding: 10px;
 }
 
-.sidenav .closebtn {
+.side-nav .close-btn {
  position: absolute;
  top: 0;
  right: 0px;
@@ -20,23 +20,23 @@
  border: none;
  cursor: pointer;
 }
-.sidenav p{
+.side-nav p{
   margin-top: 3px;
   margin-bottom: 3px;
 }
-.sidenav i{
+.side-nav i{
   color: #545454;
   font-size: 13px;
 }
-.sidenav .finding-restaurant {
+.side-nav .finding-restaurant {
   margin-top: 10px;
 }
-.sidenav .current-address{
+.side-nav .current-address{
   margin-top: 10px;
   margin-bottom: 5px;
 }
 
-.openbtn {
+.open-btn {
  position: absolute;
  top: 10px;
  left: 8px;

@@ -44,6 +44,7 @@ function* fetchRestaurant(data) {
   }
 }
 
+
 function* actionWatcher() {
   yield takeLatest(FETCH_RESTAURANTS, fetchRestaurants);
   yield takeLatest(FETCH_RESTAURANT, fetchRestaurant);

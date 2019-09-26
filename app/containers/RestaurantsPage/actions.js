@@ -4,7 +4,7 @@
  *
  */
 
-import { FETCH_RESTAURANTS, FETCH_RESTAURANT } from './constants';
+import { FETCH_RESTAURANTS, FETCH_RESTAURANT, RESTAURANT_ROUTE_INFO } from './constants';
 
 export function fetchRestaurants() {
   return {
@@ -15,6 +15,13 @@ export function fetchRestaurants() {
 export function fetchRestaurant(data) {
   return {
     type: FETCH_RESTAURANT,
+    data,
+  };
+}
+
+export function restaurantRouteInfo(data) {
+  return {
+    type: RESTAURANT_ROUTE_INFO,
     data,
   };
 }

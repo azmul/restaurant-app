@@ -21,10 +21,17 @@ import saga from './saga';
 export function LandingPage(props) {
   useInjectReducer({ key: 'landingPage', reducer });
   useInjectSaga({ key: 'landingPage', saga });
+
   const { google } = window;
   const { getMapCoordinate, getAddress } = props;
   const [mapInfo, setMap] = useState(null);
+  const [directionDisplay, setDirectionDisplay] = useState(null);
+  const [directionService, setDirectionService] = useState(null);
+  
   useEffect(() => {
+    const directionsService = new google.maps.DirectionsService();
+    const directionsDisplay = new google.maps.DirectionsRenderer();
+
     window.navigator.geolocation.getCurrentPosition(
       async position => {
         const positionInfo = {
@@ -36,6 +43,11 @@ export function LandingPage(props) {
           center: positionInfo,
           mapTypeControl: false,
         });
+
+        setDirectionService(directionsService);
+        setDirectionDisplay(directionsDisplay);
+        directionsDisplay.setMap(map);
+
         setMap(map);
         getMapCoordinate(positionInfo);
         getAddress(positionInfo);
@@ -47,7 +59,11 @@ export function LandingPage(props) {
   return (
     <React.Fragment>
       <div id="map_canvas" className="map-canvas" />
-      <RestaurantsPage map={mapInfo} />
+      <RestaurantsPage 
+        map={mapInfo}
+        directionService={directionService}
+        directionDisplay={directionDisplay} 
+      />
     </React.Fragment>
   );
 }

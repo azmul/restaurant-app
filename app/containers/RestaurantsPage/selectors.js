@@ -22,5 +22,11 @@ const makeRestaurant = () =>
     subState => subState.restaurant,
   );
 
+const makeRouteInfo = () =>
+  createSelector(
+    selectRestaurantsPageDomain,
+    subState => subState.routeInfo,
+  );
+
 export default makeSelectRestaurantsPage;
-export { selectRestaurantsPageDomain, makeRestaurants, makeRestaurant };
+export { selectRestaurantsPageDomain, makeRestaurants, makeRestaurant, makeRouteInfo };

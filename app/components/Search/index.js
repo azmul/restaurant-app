@@ -8,11 +8,20 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import pick from 'lodash/pick';
-import { fetchRestaurant } from '../../containers/RestaurantsPage/actions';
+import { fetchRestaurant, restaurantRouteInfo } from '../../containers/RestaurantsPage/actions';
 import './style.css';
 
 function Search(props) {
-  const { data, getRestaurant } = props;
+  const {
+    data,
+    getRestaurant,
+    directionDisplay,
+    directionService,
+    positionInfo,
+    getRouteInfo,
+  } = props;
+
+  const { google } = window;
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isSuggestion, setSuggestion] = useState(false);
@@ -37,8 +46,20 @@ function Search(props) {
 
   function setSuggestValue(val) {
     const filteredRestaurant = pick(val, 'id', 'name');
+    const latLng = pick(val.location, 'lat', 'lng');
+    const request = {
+      origin: `${positionInfo.lat},${positionInfo.lng}`,
+      destination: `${latLng.lat},${latLng.lng}`,
+      travelMode: google.maps.DirectionsTravelMode.DRIVING,
+    };
     getRestaurant(filteredRestaurant);
     setValue(val.name);
+    directionService.route(request, (response, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        directionDisplay.setDirections(response);
+        getRouteInfo(response.routes[0]);
+      }
+    });
     setEmptySuggestion();
   }
 
@@ -79,11 +100,16 @@ function Search(props) {
 Search.propTypes = {
   data: PropTypes.array,
   getRestaurant: PropTypes.func,
+  directionDisplay: PropTypes.object,
+  directionService: PropTypes.object,
+  positionInfo: PropTypes.object,
+  getRouteInfo: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     getRestaurant: data => dispatch(fetchRestaurant(data)),
+    getRouteInfo: data => dispatch(restaurantRouteInfo(data)),
   };
 }
 

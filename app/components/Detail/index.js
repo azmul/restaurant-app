@@ -8,35 +8,47 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
 
-function Details(props) {
-  const { data } = props;
-  const isDetails = Object.keys(props.data).length > 0;
+function Detail(props) {
+  const { data, routeInfo } = props;
+  const isDetails = Object.keys(data).length > 0;
+  const isRouteInfo = Object.keys(routeInfo).length > 0;
   return (
     <div>
-      {isDetails ? (
+      {isDetails && isRouteInfo ? (
         <div className="restaurant-details">
-          <i>Name</i>
-          <p>{data.name}</p>
-          <i>Address</i>
-          <p>{data.location.formattedAddress[0]}</p>
-          <i>Canonical Url</i>
           <p>
-            <a href={data.canonicalUrl}>Click Here</a>
+            <i>Name:</i> {data.name}
           </p>
-          <i>Stats TipCount</i>
-          <p>{data.stats.tipCount}</p>
-          <i>Likes</i>
-          <p>{data.likes.count}</p>
-          <i>Photos Number</i>
-          <p>{data.photos.count}</p>
+          <p>
+            <i>Distance:</i> {routeInfo.distance.text}
+          </p>
+          <p>
+            <i>Time:</i> {routeInfo.duration.text}
+          </p>
+          <p>
+            <i>Address:</i> {routeInfo.end_address}
+          </p>
+          <p>
+            <i>Canonical Url:</i> <a href={data.canonicalUrl}>Click Here</a>
+          </p>
+          <p>
+            <i>Stats TipCount</i> {data.stats.tipCount}
+          </p>
+          <p>
+            <i>Likes</i> {data.likes.count}
+          </p>
+          <p>
+            <i>Photos Number</i> {data.photos.count}
+          </p>
         </div>
       ) : null}
     </div>
   );
 }
 
-Details.propTypes = {
+Detail.propTypes = {
   data: PropTypes.object.isRequired,
+  routeInfo: PropTypes.object,
 };
 
-export default Details;
+export default Detail;

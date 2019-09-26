@@ -9,6 +9,7 @@ import {
   FETCH_RESTAURANTS_ERROR,
   FETCH_RESTAURANT_SUCCESS,
   FETCH_RESTAURANT_ERROR,
+  RESTAURANT_ROUTE_INFO,
 } from './constants';
 
 export const initialState = {
@@ -16,6 +17,7 @@ export const initialState = {
   restaurantsError: [],
   restaurant: {},
   restaurantError: {},
+  routeInfo: {},
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -33,6 +35,9 @@ const restaurantsPageReducer = (state = initialState, action) =>
         break;
       case FETCH_RESTAURANT_ERROR:
         draft.restaurantError = action.err;
+        break;
+      case RESTAURANT_ROUTE_INFO:
+        draft.routeInfo = action.data.legs[0];
         break;
     }
   });
